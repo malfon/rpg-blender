@@ -18,6 +18,7 @@ public class Game extends BasicGame
 {
 	//game images
 	Image character_up, character_down, character_left, character_right;
+	Image character_left_walk_1;
 	Image map;
 	Image[] npc = new Image[2];
 	Image fightbg;
@@ -37,6 +38,7 @@ public class Game extends BasicGame
 	boolean play=false;
 	boolean pause=false;
 	boolean dialog = false;
+	boolean walk=false;
 
 	int Player_x = width/2;  // Player position at x 
 	int Player_y = height/2;    // Player position at y 
@@ -101,7 +103,25 @@ public class Game extends BasicGame
 			}
 			else if(left)
 			{
-				g.drawImage(character_left, Player_x, Player_y);
+				int count=0;
+				if(!walk)
+				{
+					g.drawImage(character_left, Player_x, Player_y);
+				}
+				else if(walk)
+				{
+					g.drawImage(character_left_walk_1, Player_x, Player_y);
+				}
+				if(count==1000)
+				{
+					walk=true;
+					count=0;
+				}
+				else if(count!=1000)
+				{
+					walk=false;
+					count++;
+				}
 			}
 			else if(right)
 			{
@@ -157,6 +177,7 @@ public class Game extends BasicGame
 		character_up = new Image("character_up.png");
 		character_down = new Image("character_down.png");
 		character_left = new Image("character_left.png");
+		character_left_walk_1 = new Image("character_left_walk_1.png");
 		character_right = new Image("character_right.png");
 		map = new Image("map.png");
 		npc[0] = new Image("npc0.png");
