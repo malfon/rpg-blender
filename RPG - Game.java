@@ -7,13 +7,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-/* I was struggling with the gamestate,
- * so I'm trying some boolean systems
- * to run the title screen, game, and some other possibilities.
- * I'll still upload the gamestate java file.
- * Also, excuse the messiness lol.
- */
-
 public class Game extends BasicGame
 {
 	//game images
