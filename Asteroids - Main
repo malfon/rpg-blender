@@ -1,0 +1,68 @@
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import java.lang.*;
+
+public class Main extends BasicGame
+{
+	static int width=600, height=600;
+	
+	static Image rock;
+	static int rocksize=50;
+	
+	static double sec=0.0;
+	static int min=(int) (Math.round(sec)/60);
+	
+	static int rockx=0, rocky=0, rockspeed=1;  // Top left
+	static int rockx1 = 550, rocky1 = 0;       // Top right
+	
+	public Main(String title)
+	{
+		super(title);
+	}
+	
+	public static void main(String args[]) throws SlickException
+	{
+		AppGameContainer app = new AppGameContainer(new Main("Asteroids"));
+		app.setDisplayMode(width, height, false);
+		app.start();
+	}
+	
+	public void render(GameContainer gc, Graphics g) throws SlickException
+	{
+		g.drawImage(rock, rockx, rocky);
+		g.drawImage(rock, rockx+width, rocky);
+		g.drawImage(rock, rockx1, rocky1);
+		g.drawString(" "+min+":"+Math.round(sec), width/2, 0);
+	}
+	
+	public void init(GameContainer gc) throws SlickException
+	{
+		rock = new Image("rock.png");
+	}
+	
+	public void update(GameContainer gc, int delta) throws SlickException
+	{
+		// Top left rock
+		rockx += rockspeed;
+		rocky += rockspeed;
+		
+		// Top right rock
+		rockx1 -= rockspeed;
+		rocky1 += rockspeed;
+		
+		
+		
+		if(Math.round(sec)==60)
+		{
+			sec=0.0;
+			min++;
+		}
+		//min=Math.round(sec)/60;
+		sec+=0.006;
+	}
+}
