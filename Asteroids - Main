@@ -1,4 +1,3 @@
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -112,12 +111,7 @@ public class Main extends BasicGame
         		Ship.setCenterOfRotation(Ship.getWidth() / 2, Ship.getHeight() / 2);
         		Ship.setRotation((float) angle);
         	}
-        	
-            if(shipx > width)
-            	System.out.println("Out of sight");
-            
-            if(shipx == rockx || shipy == rocky)
-            	System.out.println("Collision!");
+        
             
         	
                 // Top left rock
