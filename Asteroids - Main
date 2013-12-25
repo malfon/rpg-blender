@@ -1,3 +1,4 @@
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -5,64 +6,137 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.*;
 import java.lang.*;
 
 public class Main extends BasicGame
 {
-	static int width=600, height=600;
-	
-	static Image rock;
-	static int rocksize=50;
-	
-	static double sec=0.0;
-	static int min=(int) (Math.round(sec)/60);
-	
-	static int rockx=0, rocky=0, rockspeed=1;  // Top left
-	static int rockx1 = 550, rocky1 = 0;       // Top right
-	
-	public Main(String title)
-	{
-		super(title);
-	}
-	
-	public static void main(String args[]) throws SlickException
-	{
-		AppGameContainer app = new AppGameContainer(new Main("Asteroids"));
-		app.setDisplayMode(width, height, false);
-		app.start();
-	}
-	
-	public void render(GameContainer gc, Graphics g) throws SlickException
-	{
-		g.drawImage(rock, rockx, rocky);
-		g.drawImage(rock, rockx+width, rocky);
-		g.drawImage(rock, rockx1, rocky1);
-		g.drawString(" "+min+":"+Math.round(sec), width/2, 0);
-	}
-	
-	public void init(GameContainer gc) throws SlickException
-	{
-		rock = new Image("rock.png");
-	}
-	
-	public void update(GameContainer gc, int delta) throws SlickException
-	{
-		// Top left rock
-		rockx += rockspeed;
-		rocky += rockspeed;
-		
-		// Top right rock
-		rockx1 -= rockspeed;
-		rocky1 += rockspeed;
-		
-		
-		
-		if(Math.round(sec)==60)
-		{
-			sec=0.0;
-			min++;
-		}
-		//min=Math.round(sec)/60;
-		sec+=0.006;
-	}
+        static int width=600, height=600;
+        
+        static Image rock;
+        static Image Ship;
+        Shape shape;
+         
+        static int rocksize=50;
+        
+        static double sec=0.0;
+        static int min=(int) (Math.round(sec)/60);
+        
+        // Ship;
+        static float shipx =  300f;
+        static float shipy =  300f;
+        static float shipspeedx = 1f;
+        static float shipspeedy = 1f;
+        static float thrust = 0.1f;
+        static float PosX = shipx;   // Where Ship is first initialized
+        static float PosY = shipy;   //	
+        
+   	
+        double rotation = 1.5f;
+        static double angle = Math.atan2(shipx, shipy);
+             
+        
+        // Asteroids
+        static float rockx = 0.0f, rocky = 0.0f, rockspeed = 0.1f; // Top left
+        static int rockx1 = 550, rocky1 = 0; // Top right
+        
+        // Collision
+        float S_colbx = 46;
+        float S_colby = 46;
+        
+        
+        float A_colbx = 40;
+        float A_colby = 40;
+        
+        public Main(String title)
+        {
+                super(title);
+        }
+        
+        public static void main(String args[]) throws SlickException
+        {
+                AppGameContainer app = new AppGameContainer(new Main("Asteroids"));
+                app.setDisplayMode(width, height, false);
+                app.start();
+        }
+        
+        public void render(GameContainer gc, Graphics g) throws SlickException
+        {
+                g.drawImage(rock, rockx, rocky);
+                g.drawRect(rockx, rocky, A_colbx + 5, A_colby + 5);
+            
+                
+                g.drawImage(rock, rockx+width, rocky);
+                g.drawImage(rock, rockx1, rocky1);
+                
+                g.drawImage(Ship, shipx, shipy);
+                g.drawRect(shipx, shipy, S_colbx, S_colby);
+               
+                g.drawString(" "+min+":"+Math.round(sec), width/2, 0);
+                
+        }
+        
+        public void init(GameContainer gc) throws SlickException
+        {
+                rock = new Image("rock.png");
+                Ship = new Image("Ship.png");
+               
+        }
+        
+        public void update(GameContainer gc, int delta) throws SlickException
+        {
+        	// Ship Controls
+        	Input input = gc.getInput();
+        
+  
+        	if(input.isKeyDown(Input.KEY_UP))
+        	{
+        		
+        		     shipx +=  (float) (shipspeedx * Math.cos(Math.toRadians(angle)));	
+        			 shipy +=  (float) (shipspeedy * Math.sin(Math.toRadians(angle)));
+        		  
+        	}
+            if(input.isKeyDown(Input.KEY_DOWN))
+        	{
+        		
+        	}
+        	 if(input.isKeyDown(Input.KEY_RIGHT))
+        	{
+        		angle += rotation;
+        		Ship.setCenterOfRotation(Ship.getWidth() / 2, Ship.getHeight() / 2);
+        		Ship.setRotation((float) angle);
+        	}
+            if(input.isKeyDown(Input.KEY_LEFT))
+        	{
+        		angle -= rotation;
+        		Ship.setCenterOfRotation(Ship.getWidth() / 2, Ship.getHeight() / 2);
+        		Ship.setRotation((float) angle);
+        	}
+        	
+            if(shipx > width)
+            	System.out.println("Out of sight");
+            
+            if(shipx == rockx || shipy == rocky)
+            	System.out.println("Collision!");
+            
+        	
+                // Top left rock
+                rockx += rockspeed;
+                rocky += rockspeed;
+                
+                // Top right rock
+                rockx1 -= rockspeed;
+                rocky1 += rockspeed;
+                
+                
+                
+                if(Math.round(sec)==60)
+                {
+                        sec=0.0;
+                        min++;
+                }
+               // min=Math.round(sec)/60;
+                sec+=0.006;
+        }
+        
 }
